@@ -190,6 +190,47 @@ The server starts at `http://localhost:8080`. Open that URL in your browser to u
 
 ---
 
+## Deployment (Free — Render.com)
+
+Render is the best free option for this project. It supports FastAPI, Python 3.11, and gives you a real Linux container with a public HTTPS URL.
+
+### Steps
+
+**1. Push your code to GitHub**
+
+Make sure your repo is on GitHub. The `.gitignore` already excludes `.env`, `venv/`, `uploads/`, `chroma_db/`, and `data/` so no secrets or local state gets committed.
+
+**2. Sign up at [render.com](https://render.com)**
+
+Use your GitHub account to sign in.
+
+**3. Create a new Web Service**
+
+- Click **New → Web Service**
+- Connect your GitHub repo (`AmitGPT`)
+- Render auto-detects `render.yaml` — it will pre-fill all settings
+
+**4. Set environment variables**
+
+In the Render dashboard under **Environment**, add:
+
+| Key | Value |
+|---|---|
+| `GOOGLE_API_KEY` | your Google Gemini API key |
+| `TAVILY_API_KEY` | your Tavily API key |
+
+**5. Deploy**
+
+Click **Deploy Web Service**. Render will install dependencies and start the server. Your app will be live at a URL like `https://amitgpt.onrender.com`.
+
+### Important Notes
+
+- **Free tier spins down** after 15 minutes of inactivity. The first request after idle takes ~30 seconds to wake up.
+- **Storage is ephemeral** on the free tier — uploaded files, ChromaDB vectors, and SQLite data are wiped on each redeploy. This is fine for demos. For persistence, add a Render Disk ($1/month) mounted at `/data`.
+- **Build time** is ~3–5 minutes on first deploy due to heavy dependencies (ChromaDB, LangChain, etc.).
+
+---
+
 ## License
 
 This project is licensed under the terms of the [LICENSE](LICENSE) file included in this repository.
